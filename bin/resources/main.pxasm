@@ -1,0 +1,14 @@
+SECTION add
+MOV rs, rpib
+MOV rs, rpia
+ADD
+MOV rria
+ENDSECTION add
+
+SECTION __main__
+MEM vara, 5
+MEM varb, 2
+MOV rpia, vara
+MOV rpib, varb
+JMP add
+ENDSECTION __main__
