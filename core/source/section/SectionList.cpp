@@ -3,9 +3,9 @@
 namespace pxvm
 {
 
-const pxvm::Section &SectionList::get(const std::string &name)
+pxvm::Section *SectionList::get(const std::string &name)
 {
-    return *m_list.at(name);
+    return m_list.at(name);
 }
 
 size_t SectionList::getNbSection() const

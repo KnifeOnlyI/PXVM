@@ -32,7 +32,7 @@ public:
      *
      * \return The section
      */
-    const pxvm::Section &get(const std::string &name);
+    [[nodiscard]] pxvm::Section *get(const std::string &name);
 
     /**
      * Get the number of section

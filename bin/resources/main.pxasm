@@ -1,14 +1,17 @@
 SECTION add
-MOV rs, rpib
-MOV rs, rpia
+MOV rs, rp0
+MOV rs, rp1
 ADD
-MOV rria
+MOV rr0, rs
 ENDSECTION add
 
 SECTION __main__
-MEM vara, 5
-MEM varb, 2
-MOV rpia, vara
-MOV rpib, varb
+MOV rp0, 5852.58
+MOV rp1, -2.596
 JMP add
+MOV rs, 50
+MOV rs, 25
+SWP
+MOV rs, "Hello World !"
+PRINT
 ENDSECTION __main__

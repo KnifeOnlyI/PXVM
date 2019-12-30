@@ -44,7 +44,7 @@ public:
      *
      * \return The instruction list
      */
-    [[nodiscard]] const pxvm::Instruction &get(int i) const;
+    [[nodiscard]] pxvm::Instruction *get(int i);
 
     /**
      * Get the number of instruction

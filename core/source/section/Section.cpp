@@ -19,9 +19,9 @@ const std::string &Section::getName() const
     return m_name;
 }
 
-const pxvm::Instruction &Section::get(int i) const
+pxvm::Instruction *Section::get(int i)
 {
-    return *m_instructionList[i];
+    return m_instructionList[i];
 }
 
 size_t Section::getNbInstruction() const

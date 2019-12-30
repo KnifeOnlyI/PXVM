@@ -19,15 +19,6 @@ class FileParserService
 {
 public:
     /**
-     * Get the instruction list from specified file
-     *
-     * \param filepath The filepath to analyze
-     *
-     * \return The instruction list in the specified file
-     */
-    static std::vector<pxvm::Instruction> getInstructionListFromFile(const std::string &filepath);
-
-    /**
      * Get the section list from specified file
      *
      * \param filepath The filepath to analyze
