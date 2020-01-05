@@ -14,12 +14,12 @@ Data::Data(DataType type)
 Data::Data(const std::string &value)
     : m_value {value}, m_isNull {false}
 {
+    // By default, the type is a string
     pxvm::DataType type {pxvm::DataType::STRING};
 
     if (value[0] == '"' && value[value.size() - 1] == '"')
     {
         m_value = m_value.substr(1, m_value.size() - 2); // Remove the string delimiter at the begin and end of string
-        type = pxvm::DataType::STRING;
     }
     else if (value[0] == '\'' && value[value.size() - 1] == '\'')
     {
@@ -54,8 +54,17 @@ Data::Data(const std::string &value)
             type = pxvm::DataType::UINT_64;
         }
     }
+    else if (value == "true" || value == "false")
+    {
+        type = pxvm::DataType::BOOLEAN;
+    }
 
     m_type = type;
+}
+
+Data::Data(bool value)
+    : m_value {value ? "true" : "false"}, m_isNull {false}, m_type {pxvm::DataType::BOOLEAN}
+{
 }
 
 Data::Data(DataType type, std::string value)
@@ -84,7 +93,7 @@ void Data::setValue(std::string value)
     m_value = std::move(value);
 }
 
-void Data::isNull(bool value)
+void Data::setIsNull(bool value)
 {
     m_isNull = value;
     m_value.clear();
@@ -96,6 +105,16 @@ void Data::assertNotNull() const
     {
         throw pxvm::NullPointerException("The value cannot be NULL", __FILE__, __LINE__);
     }
+}
+
+bool Data::isTrue()
+{
+    return (isBoolean() && m_value == "true");
+}
+
+bool Data::isBoolean() const
+{
+    return m_type == DataType::BOOLEAN;
 }
 
 bool Data::isSignedInt() const

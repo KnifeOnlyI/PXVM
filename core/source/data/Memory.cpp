@@ -1,3 +1,4 @@
+#include <iostream>
 #include "exception/MemoryNotExistVariable.hpp"
 #include "data/Memory.hpp"
 

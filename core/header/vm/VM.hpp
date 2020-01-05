@@ -80,8 +80,16 @@ private:
     static uint8_t getRegisterNumber(const std::string &registerName);
 
     /**
+     * Check if the specfied instruction name is a conditional instruction or not
+     *
+     * \return TRUE if the specfied instruction name is a conditional instruction FALSE otherwise
+     */
+    static bool isConditionalInstruction(const std::string &instructionName);
+
+    /**
      * Execute the specified name
      *
+     * \param sectionList The section list
      * \param name The name name
      */
     void executeSection(pxvm::SectionList &sectionList, const std::string &name);
@@ -107,6 +115,14 @@ private:
      * \param name The basic operation name
      */
     void manageBasicOperation(const std::string &name);
+
+    /**
+     * Manage conditional instruction
+     *
+     * \param sectionList The section list
+     * \param instruction Instruction to analyze
+     */
+    void manageConditionalInstruction(pxvm::SectionList &sectionList, pxvm::Instruction &instruction);
 
     /**
      * Get register by name

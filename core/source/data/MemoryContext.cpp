@@ -19,6 +19,11 @@ pxvm::Data pxvm::MemoryContext::get(const std::string &key)
 
 void MemoryContext::set(const std::string &key, const Data &data)
 {
+    if (m_data.find(key) != m_data.end())
+    {
+        free(key);
+    }
+
     m_data.emplace(key, data);
 }
 

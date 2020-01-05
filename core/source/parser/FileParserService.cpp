@@ -142,15 +142,18 @@ pxvm::SectionList FileParserService::getSectionListFromFile(const std::string &f
 
                 while (std::getline(file, line))
                 {
-                    instructionProps = pxvm::FileParserService::getSplitLine(line);
+                    if (!line.empty())
+                    {
+                        instructionProps = pxvm::FileParserService::getSplitLine(line);
 
-                    if (instructionProps[0] != "ENDSECTION")
-                    {
-                        section->add(instructionProps);
-                    }
-                    else
-                    {
-                        break;
+                        if (instructionProps[0] != "ENDSECTION")
+                        {
+                            section->add(instructionProps);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
 

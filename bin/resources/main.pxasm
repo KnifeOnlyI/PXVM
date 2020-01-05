@@ -5,12 +5,25 @@ ADD
 MOV rr0, rs
 ENDSECTION add
 
+SECTION less0
+MOV rs, "   Moins de 0 !"
+PRINT
+ENDSECTION less0
+
+SECTION more0
+MOV rs, "   Plus de 0 !"
+PRINT
+ENDSECTION more0
+
 SECTION __main__
 MOV rp0, 5852.58
 MOV rp1, -2.596
 JMP add
-MOV rs, rr0
-MOV rs, "Results : "
+MEM test, rr0
+MOV rs, test
 PRINT
-PRINT
+MOV rs, test
+MOV rs, 0
+CLE
+JTF less0, more0
 ENDSECTION __main__

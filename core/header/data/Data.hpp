@@ -12,7 +12,8 @@ namespace pxvm
  */
 enum DataType
 {
-    UINT_8,     /**< \ No signed 8 bit integer */
+    BOOLEAN,    /**< Boolean */
+    UINT_8,     /**< No signed 8 bit integer */
     UINT_16,    /**< No signed 16 bit integer */
     UINT_32,    /**< No signed 32 bit integer */
     UINT_64,    /**< No signed 64 bit integer */
@@ -49,6 +50,13 @@ public:
      * \param value The value
      */
     explicit Data(const std::string &value);
+
+    /**
+     * Create boolean data with the specified value
+     *
+     * \param value The value
+     */
+    explicit Data(bool value);
 
     /**
      * Create not null data
@@ -91,45 +99,59 @@ public:
      *
      * \param value The value
      */
-    void isNull(bool value);
+    void setIsNull(bool value);
 
     /**
-     * Check if m_data is signed int
+     * Check if the value is a true value (Not null and not empty string)
      *
-     * \return True if is signed int
+     * \return TRUE if the value is a true value, FALSE otherwise
+     */
+    [[nodiscard]] bool isTrue();
+
+    /**
+     * Check if data is a boolean
+     *
+     * \return TRUE if is a boolean, FALSE otherwise
+     */
+    [[nodiscard]] bool isBoolean() const;
+
+    /**
+     * Check if data is signed int
+     *
+     * \return TRUE if is signed int, FALSE otherwise
      */
     [[nodiscard]] bool isSignedInt() const;
 
     /**
-     * Check if m_data is unsigned int
+     * Check if data is unsigned int
      *
-     * \return True if is unsigned int
+     * \return TRUE if is unsigned int, FALSE otherwise
      */
     [[nodiscard]] bool isUnsignedInt() const;
 
     /**
-     * Check if m_data is int
+     * Check if data is int
      *
      * \return TRUE if is int, FALSE otherwise
      */
     [[nodiscard]] bool isInt() const;
 
     /**
-     * Check if m_data is a real number
+     * Check if data is a real number
      *
      * \return TRUE if is a real number, FALSE otherwise
      */
     [[nodiscard]] bool isRealNumber() const;
 
     /**
-     * Check if m_data is a number
+     * Check if data is a number
      *
      * \return TRUE if is a number, FALSE otherwise
      */
     [[nodiscard]] bool isNumber() const;
 
     /**
-     * Check if m_data is a char or string
+     * Check if data is a char or string
      *
      * \return TRUE if is a char or string, FALSE otherwise
      */

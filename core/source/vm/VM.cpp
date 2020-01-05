@@ -1,5 +1,6 @@
 #include <iostream>
 #include <exception/NotExistsRegisterException.hpp>
+#include <exception/InvalidOperandException.hpp>
 
 #include "parser/FileParserService.hpp"
 #include "vm/VM.hpp"
@@ -90,6 +91,20 @@ pxvm::Register &VM::getRegister(const std::string &completeRegisterName)
     }
 }
 
+bool VM::isConditionalInstruction(const std::string &instructionName)
+{
+    return (
+        instructionName == "CMP" || // Compare strict equality and put results on stack
+        instructionName == "CGE" || // Compare greater or equals and put results on stack
+        instructionName == "CG" ||  // Compare greater and put results on stack
+        instructionName == "CLE" || // Compare less or equals and put results on stack
+        instructionName == "CL" ||  // Compare less and put results on stack
+        instructionName == "JT" ||  // Jump on specified section if the top of stack is a boolean TRUE value
+        instructionName == "JF" ||  // Jump on specified section if the top of stack is a boolean FALSE value
+        instructionName == "JTF"    // Jump on section or another section depends of top stack boolean value
+    );
+}
+
 // endregion
 
 void pxvm::VM::execute(const std::string &filepath)
@@ -110,7 +125,11 @@ void VM::executeSection(SectionList &sectionList, const std::string &name)
     {
         instruction = section->get(i);
 
-        if (instruction->getParam1().empty() && instruction->getParam2().empty())
+        if (isConditionalInstruction(instruction->getName()))
+        {
+            manageConditionalInstruction(sectionList, *instruction);
+        }
+        else if (instruction->getParam1().empty() && instruction->getParam2().empty())
         {
             manageBasicOperation(instruction->getName());
         }
@@ -138,7 +157,7 @@ void VM::manageOperationMEM(const std::string &sectionName, Instruction &instruc
     {
         m_data.mem.set(sectionName, instruction.getParam1(), pxvm::Data {instruction.getParam2()});
     }
-    else if (isMemoryIdentifier(instruction.getParam1()))
+    else if (isMemoryIdentifier(instruction.getParam2()))
     {
         m_data.mem.set(sectionName, instruction.getParam1(), m_data.mem.get(sectionName, instruction.getParam2()));
     }
@@ -214,6 +233,58 @@ void VM::manageBasicOperation(const std::string &name)
     else if (name == "PRINT")
     {
         std::cout << *m_data.rs.pop().getValue();
+    }
+}
+
+void VM::manageConditionalInstruction(pxvm::SectionList &sectionList, pxvm::Instruction &instruction)
+{
+    pxvm::Data data1 {m_data.rs.pop()};
+
+    if ((instruction.getName() == "JT" && data1.isTrue()) ||
+        ((instruction.getName() == "JF" && !data1.isTrue())))
+    {
+        executeSection(sectionList, instruction.getParam1());
+    }
+    else if (instruction.getName() == "JTF")
+    {
+        if (data1.isTrue())
+        {
+            executeSection(sectionList, instruction.getParam1());
+        }
+        else
+        {
+            executeSection(sectionList, instruction.getParam2());
+        }
+    }
+    else
+    {
+        pxvm::Data data2 {m_data.rs.pop()};
+
+        // Compare strict equality (for string and numbers)
+        if (instruction.getName() == "CMP")
+        {
+            m_data.rs.push(pxvm::Data {data1.getValue() == data2.getValue()});
+        }
+        else if (!data1.isNumber() || !data2.isNumber()) // If one of the 2 values is not a number
+        {
+            throw pxvm::InvalidOperandException(boost::format("%s operand need 2 numbers") % instruction.getName());
+        }
+        else if (instruction.getName() == "CGE") // Operation "greater or equals"
+        {
+            m_data.rs.push(pxvm::Data {data2.toDouble() >= data1.toDouble()});
+        }
+        else if (instruction.getName() == "CG") // Operation "greater"
+        {
+            m_data.rs.push(pxvm::Data {data2.toDouble() > data1.toDouble()});
+        }
+        else if (instruction.getName() == "CLE") // Operation "less or equals"
+        {
+            m_data.rs.push(pxvm::Data {data2.toDouble() <= data1.toDouble()});
+        }
+        else if (instruction.getName() == "CL") // Operation "less"
+        {
+            m_data.rs.push(pxvm::Data {data2.toDouble() < data1.toDouble()});
+        }
     }
 }
 }
