@@ -26,4 +26,6 @@ MOV rs, test
 MOV rs, 0
 CLE
 JTF less0, more0
+MOV rs, true
+JT  less0
 ENDSECTION __main__

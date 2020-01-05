@@ -17,7 +17,11 @@ Data::Data(const std::string &value)
     // By default, the type is a string
     pxvm::DataType type {pxvm::DataType::STRING};
 
-    if (value[0] == '"' && value[value.size() - 1] == '"')
+    if (value == "true" || value == "false")
+    {
+        type = pxvm::DataType::BOOLEAN;
+    }
+    else if (value[0] == '"' && value[value.size() - 1] == '"')
     {
         m_value = m_value.substr(1, m_value.size() - 2); // Remove the string delimiter at the begin and end of string
     }
@@ -53,10 +57,6 @@ Data::Data(const std::string &value)
         {
             type = pxvm::DataType::UINT_64;
         }
-    }
-    else if (value == "true" || value == "false")
-    {
-        type = pxvm::DataType::BOOLEAN;
     }
 
     m_type = type;

@@ -30,7 +30,8 @@ private:
      *
      * \param value The value to check
      *
-     * \return TRUE if is a const data (like a string or number), FALSE otherwise (can be a memory identifier, main stack or register)
+     * \return TRUE if is a const data (like a string or number),
+     *         FALSE otherwise (can be a memory identifier, main stack or register)
      */
     static bool isConstData(const std::string &value);
 

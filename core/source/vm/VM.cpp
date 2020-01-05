@@ -44,7 +44,9 @@ bool VM::isConstData(const std::string &value)
     return value.empty() ||
            isNumber ||
            (value[0] == '"' && value[value.size() - 1] == '"') ||
-           (value[0] == '\'' && value[value.size() - 1] == '\'');
+           (value[0] == '\'' && value[value.size() - 1] == '\'') ||
+           (value == "true") ||
+           (value == "false");
 }
 
 uint8_t VM::getRegisterNumber(const std::string &registerName)
