@@ -7,6 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 project(${PROJECT_NAME})
 
 include_directories(${CMAKE_SOURCE_DIR}/core/header)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 file(GLOB_RECURSE SOURCE_DIR ${CMAKE_SOURCE_DIR}/core/source/*.cpp)
 file(GLOB_RECURSE HEADER_DIR ${CMAKE_SOURCE_DIR}/core/header/*.hpp)

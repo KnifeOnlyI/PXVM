@@ -18,6 +18,7 @@ Data::Data(const std::string &value)
 
     if (value[0] == '"' && value[value.size() - 1] == '"')
     {
+        m_value = m_value.substr(1, m_value.size() - 2); // Remove the string delimiter at the begin and end of string
         type = pxvm::DataType::STRING;
     }
     else if (value[0] == '\'' && value[value.size() - 1] == '\'')

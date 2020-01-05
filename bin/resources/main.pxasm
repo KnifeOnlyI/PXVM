@@ -9,9 +9,8 @@ SECTION __main__
 MOV rp0, 5852.58
 MOV rp1, -2.596
 JMP add
-MOV rs, 50
-MOV rs, 25
-SWP
-MOV rs, "Hello World !"
+MOV rs, rr0
+MOV rs, "Results : "
+PRINT
 PRINT
 ENDSECTION __main__
