@@ -6,12 +6,12 @@ MOV rr0, rs
 ENDSECTION add
 
 SECTION less0
-MOV rs, "   Moins de 0 !"
+MOV rs, "Moins de 0 !"
 PRINT
 ENDSECTION less0
 
 SECTION more0
-MOV rs, "   Plus de 0 !"
+MOV rs, "Plus de 0 !"
 PRINT
 ENDSECTION more0
 
@@ -21,11 +21,7 @@ MOV rp1, -2.596
 JMP add
 MEM test, rr0
 MOV rs, test
-PRINT
-MOV rs, test
 MOV rs, 0
 CLE
 JTF less0, more0
-MOV rs, true
-JT  less0
 ENDSECTION __main__
